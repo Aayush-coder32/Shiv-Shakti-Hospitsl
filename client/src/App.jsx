@@ -1,5 +1,5 @@
 import { Link, NavLink, Route, Routes, useNavigate } from 'react-router-dom';
-import { ArrowRight, HeartPulse, LockKeyhole, Mail, Menu, PhoneCall, ShieldCheck, UserRound, X } from 'lucide-react';
+import { ArrowRight, Bell, CalendarDays, FileText, HeartPulse, LayoutDashboard, LockKeyhole, LogOut, Mail, Menu, PhoneCall, Pill, Settings, ShieldCheck, UserRound, UsersRound, X } from 'lucide-react';
 import { useState } from 'react';
 import { departments, hospitalProfile } from './config/hospital';
 
@@ -138,10 +138,10 @@ function AuthPage({ register = false }) {
             <Link to="/register" className={`rounded-lg py-3 text-center ${register ? 'bg-white text-blue shadow-sm' : 'text-slate-500'}`}>Sign up</Link>
           </div>
           <form className="grid gap-4" onSubmit={handleSubmit}>
-            {register && <label className="field"><span>Full name</span><div className="input-wrap"><UserRound size={18} /><input required type="text" placeholder="Enter your full name" /></div></label>}
-            <label className="field"><span>Email address</span><div className="input-wrap"><Mail size={18} /><input required type="email" placeholder="you@example.com" /></div></label>
-            {register && <label className="field"><span>Phone number</span><div className="input-wrap"><PhoneCall size={18} /><input required type="tel" placeholder="Enter your phone number" /></div></label>}
-            <label className="field"><span>Password</span><div className="input-wrap"><LockKeyhole size={18} /><input required type="password" placeholder="Enter your password" /></div></label>
+            {register && <label className="field"><span>Full name</span><div className="input-wrap"><UserRound size={18} /><input name="name" required type="text" placeholder="Enter your full name" /></div></label>}
+            <label className="field"><span>Email address</span><div className="input-wrap"><Mail size={18} /><input name="email" required type="email" placeholder="you@example.com" /></div></label>
+            {register && <label className="field"><span>Phone number</span><div className="input-wrap"><PhoneCall size={18} /><input name="phone" required type="tel" placeholder="Enter your phone number" /></div></label>}
+            <label className="field"><span>Password</span><div className="input-wrap"><LockKeyhole size={18} /><input name="password" required type="password" placeholder="Enter your password" /></div></label>
             {register && <label className="flex items-start gap-2 text-xs leading-5 text-slate-500"><input required type="checkbox" className="mt-1 accent-blue" />I agree to the privacy policy and terms of service.</label>}
             {!register && <div className="flex items-center justify-between text-xs"><label className="flex items-center gap-2 text-slate-500"><input type="checkbox" className="accent-blue" />Remember me</label><button type="button" className="font-bold text-blue">Forgot password?</button></div>}
             {error && <p className="rounded-lg bg-red-50 px-3 py-2 text-xs font-semibold text-red-600">{error}</p>}
@@ -163,7 +163,17 @@ function PatientDashboard() {
     navigate('/login');
   }
 
-  return <Layout><section className="bg-soft"><div className="container py-20"><div className="flex flex-wrap items-start justify-between gap-5"><div><span className="eyebrow">Patient portal</span><h1 className="section-title mt-3">Welcome, Demo Patient</h1><p className="mt-4 text-slate-600">This is a demo dashboard for the initial login flow.</p></div><button type="button" className="button-secondary" onClick={logout}>Logout</button></div><div className="mt-10 grid gap-5 md:grid-cols-3">{[['Appointments', 'No appointments yet'], ['Medical records', 'Secure records will appear here'], ['Prescriptions', 'No prescriptions yet']].map(([title, text]) => <article className="card bg-white" key={title}><h2 className="font-display text-xl font-bold">{title}</h2><p className="mt-3 text-sm text-slate-600">{text}</p></article>)}</div></div></section></Layout>;
+  const menuItems = [
+    [LayoutDashboard, 'Dashboard Overview'],
+    [UsersRound, 'My Profile'],
+    [CalendarDays, 'Appointments'],
+    [FileText, 'Medical Records'],
+    [Pill, 'Prescriptions'],
+    [Bell, 'Notifications'],
+    [Settings, 'Settings'],
+  ];
+
+  return <Layout><section className="dashboard-shell"><div className="container dashboard-layout"><aside className="dashboard-sidebar"><div className="dashboard-brand"><span className="grid size-10 place-items-center rounded-xl bg-blue text-white"><HeartPulse size={21} /></span><span><strong>Patient Portal</strong><small>Shiv Shakti Hospital</small></span></div><nav className="dashboard-nav">{menuItems.map(([Icon, label], index) => <button type="button" className={`dashboard-nav-item ${index === 0 ? 'active' : ''}`} key={label}><Icon size={19} /><span>{label}</span></button>)}</nav><button type="button" className="dashboard-logout" onClick={logout}><LogOut size={19} /> Logout</button></aside><main className="dashboard-main"><div className="dashboard-header"><div><span className="eyebrow">Patient portal</span><h1 className="section-title mt-3">Welcome, Demo Patient</h1><p className="mt-3 text-slate-600">Here is your healthcare overview.</p></div><button type="button" className="button-secondary" onClick={logout}><LogOut size={17} /> Logout</button></div><div className="dashboard-stats">{[['Appointments', '0', 'No upcoming appointments'], ['Medical records', '0', 'Secure records'], ['Prescriptions', '0', 'Active prescriptions']].map(([title, count, text]) => <article className="dashboard-stat" key={title}><span className="dashboard-stat-icon"><CalendarDays size={20} /></span><div><p>{title}</p><strong>{count}</strong><small>{text}</small></div></article>)}</div><div className="dashboard-panels"><article className="dashboard-panel"><div className="dashboard-panel-heading"><h2>Upcoming appointments</h2><button type="button" className="text-sm font-bold text-blue">View all</button></div><div className="dashboard-empty"><CalendarDays size={30} /><p>No appointments scheduled</p><small>Your upcoming appointments will appear here.</small><button type="button" className="button-primary mt-4" onClick={() => navigate('/appointments')}>Book appointment <ArrowRight size={16} /></button></div></article><article className="dashboard-panel"><div className="dashboard-panel-heading"><h2>Quick access</h2></div><div className="quick-links"><button type="button"><CalendarDays size={20} /><span>Book appointment</span><ArrowRight size={16} /></button><button type="button"><FileText size={20} /><span>View medical records</span><ArrowRight size={16} /></button><button type="button"><Pill size={20} /><span>View prescriptions</span><ArrowRight size={16} /></button></div></article></div></main></div></section></Layout>;
 }
 
 function App() {
