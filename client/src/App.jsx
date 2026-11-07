@@ -1,4 +1,4 @@
-import { Link, NavLink, Route, Routes } from 'react-router-dom';
+import { Link, NavLink, Route, Routes, useNavigate } from 'react-router-dom';
 import { ArrowRight, HeartPulse, LockKeyhole, Mail, Menu, PhoneCall, ShieldCheck, UserRound, X } from 'lucide-react';
 import { useState } from 'react';
 import { departments, hospitalProfile } from './config/hospital';
@@ -93,6 +93,32 @@ function SimplePage({ title, eyebrow, children }) {
 }
 
 function AuthPage({ register = false }) {
+  const navigate = useNavigate();
+  const [error, setError] = useState('');
+  const demoEmail = 'patient@demo.com';
+  const demoPassword = 'Demo@123';
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    setError('');
+    const formData = new FormData(event.currentTarget);
+    const email = formData.get('email');
+    const password = formData.get('password');
+
+    if (!register && (email !== demoEmail || password !== demoPassword)) {
+      setError('Demo login ke liye patient@demo.com aur Demo@123 use karein.');
+      return;
+    }
+
+    if (register) {
+      navigate('/login');
+      return;
+    }
+
+    localStorage.setItem('demoPatientSession', 'active');
+    navigate('/patient/dashboard');
+  }
+
   return <Layout>
     <section className="auth-page">
       <div className="container grid items-center gap-12 py-16 lg:grid-cols-[.9fr_1.1fr] lg:py-24">
@@ -111,13 +137,14 @@ function AuthPage({ register = false }) {
             <Link to="/login" className={`rounded-lg py-3 text-center ${!register ? 'bg-white text-blue shadow-sm' : 'text-slate-500'}`}>Sign in</Link>
             <Link to="/register" className={`rounded-lg py-3 text-center ${register ? 'bg-white text-blue shadow-sm' : 'text-slate-500'}`}>Sign up</Link>
           </div>
-          <form className="grid gap-4" onSubmit={(event) => event.preventDefault()}>
+          <form className="grid gap-4" onSubmit={handleSubmit}>
             {register && <label className="field"><span>Full name</span><div className="input-wrap"><UserRound size={18} /><input required type="text" placeholder="Enter your full name" /></div></label>}
             <label className="field"><span>Email address</span><div className="input-wrap"><Mail size={18} /><input required type="email" placeholder="you@example.com" /></div></label>
             {register && <label className="field"><span>Phone number</span><div className="input-wrap"><PhoneCall size={18} /><input required type="tel" placeholder="Enter your phone number" /></div></label>}
             <label className="field"><span>Password</span><div className="input-wrap"><LockKeyhole size={18} /><input required type="password" placeholder="Enter your password" /></div></label>
             {register && <label className="flex items-start gap-2 text-xs leading-5 text-slate-500"><input required type="checkbox" className="mt-1 accent-blue" />I agree to the privacy policy and terms of service.</label>}
             {!register && <div className="flex items-center justify-between text-xs"><label className="flex items-center gap-2 text-slate-500"><input type="checkbox" className="accent-blue" />Remember me</label><button type="button" className="font-bold text-blue">Forgot password?</button></div>}
+            {error && <p className="rounded-lg bg-red-50 px-3 py-2 text-xs font-semibold text-red-600">{error}</p>}
             <button type="submit" className="button-primary mt-2 w-full">{register ? 'Create account' : 'Sign in'} <ArrowRight size={17} /></button>
           </form>
           <div className="my-6 flex items-center gap-3 text-xs text-slate-400"><span className="h-px flex-1 bg-slate-200" />OR<span className="h-px flex-1 bg-slate-200" /></div>
@@ -129,8 +156,18 @@ function AuthPage({ register = false }) {
   </Layout>;
 }
 
+function PatientDashboard() {
+  const navigate = useNavigate();
+  function logout() {
+    localStorage.removeItem('demoPatientSession');
+    navigate('/login');
+  }
+
+  return <Layout><section className="bg-soft"><div className="container py-20"><div className="flex flex-wrap items-start justify-between gap-5"><div><span className="eyebrow">Patient portal</span><h1 className="section-title mt-3">Welcome, Demo Patient</h1><p className="mt-4 text-slate-600">This is a demo dashboard for the initial login flow.</p></div><button type="button" className="button-secondary" onClick={logout}>Logout</button></div><div className="mt-10 grid gap-5 md:grid-cols-3">{[['Appointments', 'No appointments yet'], ['Medical records', 'Secure records will appear here'], ['Prescriptions', 'No prescriptions yet']].map(([title, text]) => <article className="card bg-white" key={title}><h2 className="font-display text-xl font-bold">{title}</h2><p className="mt-3 text-sm text-slate-600">{text}</p></article>)}</div></div></section></Layout>;
+}
+
 function App() {
-  return <Routes><Route path="/" element={<Home />} /><Route path="/about" element={<SimplePage eyebrow="About the hospital" title="Shiv Shakti Hospital, Lucknow"><p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">Shiv Shakti Hospital is designed around compassionate, accessible, and patient-focused healthcare. We aim to provide a comfortable environment supported by attentive care and modern hospital facilities.</p><p className="mt-4 max-w-2xl text-lg leading-8 text-slate-600">Our hospital profile, mission, vision, and verified facility information will continue to be managed through the administrator portal.</p></SimplePage>} /><Route path="/doctors" element={<SimplePage eyebrow="Care team" title="Meet our doctors"><p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">Verified doctor profiles will appear here once they are added by an administrator.</p></SimplePage>} /><Route path="/departments" element={<SimplePage eyebrow="Specialties" title="Our departments"><div className="mt-10 grid gap-5 md:grid-cols-2">{departments.map((department) => <article className="card bg-white" key={department.name}><h2 className="font-display text-xl font-bold">{department.name}</h2><p className="mt-3 text-sm leading-7 text-slate-600">{department.description}</p></article>)}</div></SimplePage>} /><Route path="/services" element={<SimplePage eyebrow="What we offer" title="Hospital services"><div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{services.map(([title, text, image]) => <article className="card overflow-hidden bg-white p-0" key={title}><img src={image} alt={title} loading="lazy" className="h-40 w-full object-cover" /><div className="p-6"><span className="mb-6 block h-1 w-10 rounded-full bg-teal" /><h2 className="font-display text-xl font-bold">{title}</h2><p className="mt-3 text-sm leading-7 text-slate-600">{text}</p></div></article>)}</div><div className="mt-8 overflow-hidden rounded-2xl bg-navy text-white"><div className="grid md:grid-cols-[.8fr_1.2fr]"><img src={ambulanceImageUrl} alt="Ambulance service vehicle" loading="lazy" className="h-64 w-full object-cover md:h-full" /><div className="flex flex-col justify-center gap-6 p-7 md:p-10"><div><span className="eyebrow">Always ready to help</span><h2 className="mt-2 font-display text-2xl font-bold">Ambulance services</h2><p className="mt-2 text-slate-300">For emergency ambulance assistance, call 108.</p></div><a href="tel:108" className="button-primary w-fit bg-teal text-navy"><PhoneCall size={18} /> Call 108</a></div></div></div></SimplePage>} /><Route path="/appointments" element={<SimplePage eyebrow="Appointments" title="Book an appointment"><p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">Secure appointment booking will be available after the patient account and availability services are connected.</p></SimplePage>} /><Route path="/contact" element={<SimplePage eyebrow="Contact" title="How can we help?"><p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">{hospitalProfile.contact.email}</p></SimplePage>} /><Route path="/login" element={<AuthPage />} /><Route path="/register" element={<AuthPage register />} /></Routes>;
+  return <Routes><Route path="/" element={<Home />} /><Route path="/about" element={<SimplePage eyebrow="About the hospital" title="Shiv Shakti Hospital, Lucknow"><p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">Shiv Shakti Hospital is designed around compassionate, accessible, and patient-focused healthcare. We aim to provide a comfortable environment supported by attentive care and modern hospital facilities.</p><p className="mt-4 max-w-2xl text-lg leading-8 text-slate-600">Our hospital profile, mission, vision, and verified facility information will continue to be managed through the administrator portal.</p></SimplePage>} /><Route path="/doctors" element={<SimplePage eyebrow="Care team" title="Meet our doctors"><p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">Verified doctor profiles will appear here once they are added by an administrator.</p></SimplePage>} /><Route path="/departments" element={<SimplePage eyebrow="Specialties" title="Our departments"><div className="mt-10 grid gap-5 md:grid-cols-2">{departments.map((department) => <article className="card bg-white" key={department.name}><h2 className="font-display text-xl font-bold">{department.name}</h2><p className="mt-3 text-sm leading-7 text-slate-600">{department.description}</p></article>)}</div></SimplePage>} /><Route path="/services" element={<SimplePage eyebrow="What we offer" title="Hospital services"><div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{services.map(([title, text, image]) => <article className="card overflow-hidden bg-white p-0" key={title}><img src={image} alt={title} loading="lazy" className="h-40 w-full object-cover" /><div className="p-6"><span className="mb-6 block h-1 w-10 rounded-full bg-teal" /><h2 className="font-display text-xl font-bold">{title}</h2><p className="mt-3 text-sm leading-7 text-slate-600">{text}</p></div></article>)}</div><div className="mt-8 overflow-hidden rounded-2xl bg-navy text-white"><div className="grid md:grid-cols-[.8fr_1.2fr]"><img src={ambulanceImageUrl} alt="Ambulance service vehicle" loading="lazy" className="h-64 w-full object-cover md:h-full" /><div className="flex flex-col justify-center gap-6 p-7 md:p-10"><div><span className="eyebrow">Always ready to help</span><h2 className="mt-2 font-display text-2xl font-bold">Ambulance services</h2><p className="mt-2 text-slate-300">For emergency ambulance assistance, call 108.</p></div><a href="tel:108" className="button-primary w-fit bg-teal text-navy"><PhoneCall size={18} /> Call 108</a></div></div></div></SimplePage>} /><Route path="/appointments" element={<SimplePage eyebrow="Appointments" title="Book an appointment"><p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">Secure appointment booking will be available after the patient account and availability services are connected.</p></SimplePage>} /><Route path="/contact" element={<SimplePage eyebrow="Contact" title="How can we help?"><p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">{hospitalProfile.contact.email}</p></SimplePage>} /><Route path="/login" element={<AuthPage />} /><Route path="/register" element={<AuthPage register />} /><Route path="/patient/dashboard" element={<PatientDashboard />} /></Routes>;
 }
 
 export default App;
