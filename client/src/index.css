@@ -34,5 +34,5 @@
 .hero-grid {
   background:
     linear-gradient(90deg, rgb(244 248 252 / .97) 0%, rgb(255 255 255 / .9) 54%, rgb(255 255 255 / .55) 100%),
-    url('https://tse1.mm.bing.net/th/id/OIP.gAAalHdkpu9iSRe4EVftnAHaE8?r=0&pid=Api&h=220&P=0') center / cover no-repeat;
+    url('https://tse1.mm.bing.net/th/id/OIP.gAAalHdkpu9iSRe4EVftnAHaE8?r=0&pid=Api&h=220&P=0') center right / contain no-repeat;
 }
