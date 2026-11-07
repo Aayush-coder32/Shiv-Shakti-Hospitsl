@@ -23,6 +23,12 @@
   .eyebrow { display: inline-flex; align-items: center; gap: .45rem; color: var(--color-teal); font-size: .75rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
   .section-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; line-height: 1.1; letter-spacing: -.03em; }
   .card { border: 1px solid #e8eff5; border-radius: 1.25rem; padding: 1.5rem; box-shadow: 0 10px 30px rgb(20 43 69 / .05); }
+  .auth-page { min-height: calc(100vh - 5rem); background: radial-gradient(circle at 15% 20%, rgb(24 182 176 / .1), transparent 25rem), var(--color-soft); }
+  .auth-card { width: min(100%, 30rem); margin-inline: auto; border: 1px solid #e8eff5; border-radius: 1.5rem; background: white; padding: clamp(1.5rem, 5vw, 2.5rem); box-shadow: 0 20px 50px rgb(20 43 69 / .08); }
+  .field { display: grid; gap: .45rem; color: var(--color-navy); font-size: .8rem; font-weight: 700; }
+  .input-wrap { display: flex; align-items: center; gap: .6rem; border: 1px solid #dbe5ed; border-radius: .75rem; padding: .75rem .85rem; color: #8aa0b4; transition: border-color .2s, box-shadow .2s; }
+  .input-wrap:focus-within { border-color: var(--color-blue); box-shadow: 0 0 0 3px rgb(23 105 170 / .1); }
+  .input-wrap input { width: 100%; border: 0; outline: 0; color: var(--color-navy); font-size: .875rem; }
 }
 
 .hero-grid { background: radial-gradient(circle at 85% 20%, rgb(24 182 176 / .12), transparent 25rem), linear-gradient(135deg, #f4f8fc 0%, #fff 65%); }

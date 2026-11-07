@@ -1,5 +1,5 @@
 import { Link, NavLink, Route, Routes } from 'react-router-dom';
-import { ArrowRight, HeartPulse, Menu, PhoneCall, ShieldCheck, X } from 'lucide-react';
+import { ArrowRight, HeartPulse, LockKeyhole, Mail, Menu, PhoneCall, ShieldCheck, UserRound, X } from 'lucide-react';
 import { useState } from 'react';
 import { departments, hospitalProfile } from './config/hospital';
 
@@ -73,9 +73,45 @@ function SimplePage({ title, eyebrow, children }) {
   return <Layout><section className="bg-soft"><div className="container py-20"><span className="eyebrow">{eyebrow}</span><h1 className="section-title mt-4">{title}</h1>{children}</div></section></Layout>;
 }
 
+function AuthPage({ register = false }) {
+  return <Layout>
+    <section className="auth-page">
+      <div className="container grid items-center gap-12 py-16 lg:grid-cols-[.9fr_1.1fr] lg:py-24">
+        <div className="hidden lg:block">
+          <span className="eyebrow"><ShieldCheck size={16} /> Secure patient portal</span>
+          <h1 className="mt-5 max-w-lg font-display text-5xl font-bold leading-tight">Your care journey, all in one place.</h1>
+          <p className="mt-5 max-w-md text-lg leading-8 text-slate-600">Sign in to manage appointments and access your personal healthcare services.</p>
+        </div>
+        <div className="auth-card">
+          <div className="mb-8 text-center">
+            <div className="mx-auto mb-4 grid size-12 place-items-center rounded-2xl bg-blue text-white"><HeartPulse /></div>
+            <h2 className="font-display text-2xl font-bold">{register ? 'Create your patient account' : 'Welcome back'}</h2>
+            <p className="mt-2 text-sm text-slate-500">{register ? 'Register to access the patient portal.' : 'Sign in to continue to your patient portal.'}</p>
+          </div>
+          <div className="mb-7 grid grid-cols-2 rounded-xl bg-soft p-1 text-sm font-bold">
+            <Link to="/login" className={`rounded-lg py-3 text-center ${!register ? 'bg-white text-blue shadow-sm' : 'text-slate-500'}`}>Sign in</Link>
+            <Link to="/register" className={`rounded-lg py-3 text-center ${register ? 'bg-white text-blue shadow-sm' : 'text-slate-500'}`}>Sign up</Link>
+          </div>
+          <form className="grid gap-4" onSubmit={(event) => event.preventDefault()}>
+            {register && <label className="field"><span>Full name</span><div className="input-wrap"><UserRound size={18} /><input required type="text" placeholder="Enter your full name" /></div></label>}
+            <label className="field"><span>Email address</span><div className="input-wrap"><Mail size={18} /><input required type="email" placeholder="you@example.com" /></div></label>
+            {register && <label className="field"><span>Phone number</span><div className="input-wrap"><PhoneCall size={18} /><input required type="tel" placeholder="Enter your phone number" /></div></label>}
+            <label className="field"><span>Password</span><div className="input-wrap"><LockKeyhole size={18} /><input required type="password" placeholder="Enter your password" /></div></label>
+            {register && <label className="flex items-start gap-2 text-xs leading-5 text-slate-500"><input required type="checkbox" className="mt-1 accent-blue" />I agree to the privacy policy and terms of service.</label>}
+            {!register && <div className="flex items-center justify-between text-xs"><label className="flex items-center gap-2 text-slate-500"><input type="checkbox" className="accent-blue" />Remember me</label><button type="button" className="font-bold text-blue">Forgot password?</button></div>}
+            <button type="submit" className="button-primary mt-2 w-full">{register ? 'Create account' : 'Sign in'} <ArrowRight size={17} /></button>
+          </form>
+          <div className="my-6 flex items-center gap-3 text-xs text-slate-400"><span className="h-px flex-1 bg-slate-200" />OR<span className="h-px flex-1 bg-slate-200" /></div>
+          <button type="button" className="button-secondary w-full">Continue with Google</button>
+          <p className="mt-6 text-center text-xs leading-5 text-slate-400">Authentication services will be securely connected in the next implementation phase.</p>
+        </div>
+      </div>
+    </section>
+  </Layout>;
+}
+
 function App() {
-  return <Routes><Route path="/" element={<Home />} /><Route path="/about" element={<SimplePage eyebrow="Our story" title="Healthcare with humanity"><p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">Hospital profile, mission, vision, and facility information will be managed through the administrator portal.</p></SimplePage>} /><Route path="/doctors" element={<SimplePage eyebrow="Care team" title="Meet our doctors"><p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">Verified doctor profiles will appear here once they are added by an administrator.</p></SimplePage>} /><Route path="/departments" element={<SimplePage eyebrow="Specialties" title="Our departments"><div className="mt-10 grid gap-5 md:grid-cols-2">{departments.map((department) => <article className="card bg-white" key={department.name}><h2 className="font-display text-xl font-bold">{department.name}</h2><p className="mt-3 text-sm leading-7 text-slate-600">{department.description}</p></article>)}</div></SimplePage>} /><Route path="/services" element={<SimplePage eyebrow="What we offer" title="Services built around your needs"><p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">Hospital services will be configured and published after verification.</p></SimplePage>} /><Route path="/appointments" element={<SimplePage eyebrow="Appointments" title="Book an appointment"><p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">Secure appointment booking will be available after the patient account and availability services are connected.</p></SimplePage>} /><Route path="/contact" element={<SimplePage eyebrow="Contact" title="How can we help?"><p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">{hospitalProfile.contact.email}</p></SimplePage>} /><Route path="/login" element={<SimplePage eyebrow="Patient portal" title="Sign in securely"><p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">Patient and administrator authentication panels will be introduced in Phase 3.</p></SimplePage>} /></Routes>;
+  return <Routes><Route path="/" element={<Home />} /><Route path="/about" element={<SimplePage eyebrow="Our story" title="Healthcare with humanity"><p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">Hospital profile, mission, vision, and facility information will be managed through the administrator portal.</p></SimplePage>} /><Route path="/doctors" element={<SimplePage eyebrow="Care team" title="Meet our doctors"><p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">Verified doctor profiles will appear here once they are added by an administrator.</p></SimplePage>} /><Route path="/departments" element={<SimplePage eyebrow="Specialties" title="Our departments"><div className="mt-10 grid gap-5 md:grid-cols-2">{departments.map((department) => <article className="card bg-white" key={department.name}><h2 className="font-display text-xl font-bold">{department.name}</h2><p className="mt-3 text-sm leading-7 text-slate-600">{department.description}</p></article>)}</div></SimplePage>} /><Route path="/services" element={<SimplePage eyebrow="What we offer" title="Services built around your needs"><p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">Hospital services will be configured and published after verification.</p></SimplePage>} /><Route path="/appointments" element={<SimplePage eyebrow="Appointments" title="Book an appointment"><p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">Secure appointment booking will be available after the patient account and availability services are connected.</p></SimplePage>} /><Route path="/contact" element={<SimplePage eyebrow="Contact" title="How can we help?"><p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">{hospitalProfile.contact.email}</p></SimplePage>} /><Route path="/login" element={<AuthPage />} /><Route path="/register" element={<AuthPage register />} /></Routes>;
 }
 
 export default App;
-
