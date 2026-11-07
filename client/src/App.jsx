@@ -3,6 +3,8 @@ import { ArrowRight, HeartPulse, LockKeyhole, Mail, Menu, PhoneCall, ShieldCheck
 import { useState } from 'react';
 import { departments, hospitalProfile } from './config/hospital';
 
+const hospitalLogoUrl = 'https://shivshaktihospital.in/image/logo.jpg';
+
 const navItems = [
   ['/', 'Home'],
   ['/about', 'About'],
@@ -19,13 +21,7 @@ function Layout({ children }) {
       <header className="sticky top-0 z-30 border-b border-slate-100 bg-white/95 backdrop-blur">
         <div className="container flex h-20 items-center justify-between">
           <Link to="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
-            <span className="grid size-11 place-items-center rounded-2xl bg-blue text-white shadow-lg shadow-blue/20">
-              <HeartPulse size={24} />
-            </span>
-            <span>
-              <span className="block font-display text-lg font-bold leading-tight">Shiv Shakti</span>
-              <span className="block text-xs font-semibold uppercase tracking-[0.18em] text-teal">Hospital</span>
-            </span>
+            <img src={hospitalLogoUrl} alt="Shiv Shakti Hospital logo" className="h-14 w-auto object-contain" />
           </Link>
           <button className="rounded-xl p-2 md:hidden" onClick={() => setOpen(!open)} aria-label="Toggle navigation">
             {open ? <X /> : <Menu />}
@@ -84,7 +80,7 @@ function AuthPage({ register = false }) {
         </div>
         <div className="auth-card">
           <div className="mb-8 text-center">
-            <div className="mx-auto mb-4 grid size-12 place-items-center rounded-2xl bg-blue text-white"><HeartPulse /></div>
+            <img src={hospitalLogoUrl} alt="Shiv Shakti Hospital logo" className="mx-auto mb-4 h-16 w-auto object-contain" />
             <h2 className="font-display text-2xl font-bold">{register ? 'Create your patient account' : 'Welcome back'}</h2>
             <p className="mt-2 text-sm text-slate-500">{register ? 'Register to access the patient portal.' : 'Sign in to continue to your patient portal.'}</p>
           </div>
