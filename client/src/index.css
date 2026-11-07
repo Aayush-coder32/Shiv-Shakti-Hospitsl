@@ -77,6 +77,11 @@
   .patient-feature-arrow { margin-left: auto; flex: 0 0 auto; color: #9aabba; }
   .patient-record-panels { display: grid; gap: 1rem; margin-top: 1rem; }
   .record-count { color: #71879a; font-size: .75rem; }
+  .management-section { margin-top: 2rem; }
+  .management-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+  .management-section-heading h2 { margin-top: .35rem; font-family: var(--font-display); font-size: 1.35rem; }
+  .bed-summary-grid { display: grid; gap: 1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bed-actions { margin-top: 1rem; }
   .department-grid { display: grid; gap: 1rem; margin-top: 1rem; }
   .department-card { border: 1px solid #e8eff5; border-radius: 1rem; background: white; padding: 1.25rem; box-shadow: 0 10px 30px rgb(20 43 69 / .04); }
   .department-card-heading { display: flex; align-items: center; justify-content: space-between; }
@@ -102,6 +107,7 @@
     .patient-feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .patient-record-panels { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .department-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .bed-summary-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   }
   @media (max-width: 480px) {
     .dashboard-header { flex-direction: column; }
