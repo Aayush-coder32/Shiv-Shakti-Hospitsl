@@ -82,6 +82,10 @@
   .management-section-heading h2 { margin-top: .35rem; font-family: var(--font-display); font-size: 1.35rem; }
   .bed-summary-grid { display: grid; gap: 1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .bed-actions { margin-top: 1rem; }
+  .billing-status-summary { display: flex; gap: .5rem; }
+  .billing-status-summary span, .billing-record-badge { border-radius: 999px; background: #e8f8f2; padding: .35rem .65rem; color: #218c68; font-size: .7rem; font-weight: 700; }
+  .billing-status-summary span:last-child, .billing-record-badge.pending { background: #fff4dc; color: #ad7413; }
+  .billing-charge-grid, .billing-record-grid { display: grid; gap: 1rem; margin-top: 1rem; }
   .department-grid { display: grid; gap: 1rem; margin-top: 1rem; }
   .department-card { border: 1px solid #e8eff5; border-radius: 1rem; background: white; padding: 1.25rem; box-shadow: 0 10px 30px rgb(20 43 69 / .04); }
   .department-card-heading { display: flex; align-items: center; justify-content: space-between; }
@@ -108,6 +112,8 @@
     .patient-record-panels { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .department-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .bed-summary-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .billing-charge-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .billing-record-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   }
   @media (max-width: 480px) {
     .dashboard-header { flex-direction: column; }
