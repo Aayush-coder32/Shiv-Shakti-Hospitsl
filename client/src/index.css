@@ -31,4 +31,8 @@
   .input-wrap input { width: 100%; border: 0; outline: 0; color: var(--color-navy); font-size: .875rem; }
 }
 
-.hero-grid { background: radial-gradient(circle at 85% 20%, rgb(24 182 176 / .12), transparent 25rem), linear-gradient(135deg, #f4f8fc 0%, #fff 65%); }
+.hero-grid {
+  background:
+    linear-gradient(90deg, rgb(244 248 252 / .97) 0%, rgb(255 255 255 / .9) 54%, rgb(255 255 255 / .55) 100%),
+    url('https://tse1.mm.bing.net/th/id/OIP.gAAalHdkpu9iSRe4EVftnAHaE8?r=0&pid=Api&h=220&P=0') center / cover no-repeat;
+}
