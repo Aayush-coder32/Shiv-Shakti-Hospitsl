@@ -66,6 +66,17 @@
   .dashboard-loading, .dashboard-error { margin-top: 2rem; border-radius: .8rem; padding: 1rem; font-size: .875rem; }
   .dashboard-loading { background: white; color: #71879a; }
   .dashboard-error { background: #fff1f1; color: #c43d3d; }
+  .patient-tools { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
+  .patient-tools input, .patient-tools select { min-width: 13rem; border: 1px solid #dbe5ed; border-radius: .75rem; background: white; padding: .8rem 1rem; color: var(--color-navy); font-size: .85rem; outline: 0; }
+  .patient-tools input:focus, .patient-tools select:focus { border-color: var(--color-blue); box-shadow: 0 0 0 3px rgb(23 105 170 / .1); }
+  .patient-feature-grid { display: grid; gap: 1rem; margin-top: 1rem; }
+  .patient-feature-card { display: flex; align-items: center; gap: .9rem; border: 1px solid #e8eff5; border-radius: 1rem; background: white; padding: 1rem; box-shadow: 0 10px 30px rgb(20 43 69 / .04); }
+  .patient-feature-icon { display: grid; flex: 0 0 auto; place-items: center; border-radius: .7rem; background: #eaf7f7; padding: .7rem; color: var(--color-teal); }
+  .patient-feature-card h2 { font-family: var(--font-display); font-size: .92rem; }
+  .patient-feature-card p { margin-top: .25rem; color: #71879a; font-size: .75rem; }
+  .patient-feature-arrow { margin-left: auto; flex: 0 0 auto; color: #9aabba; }
+  .patient-record-panels { display: grid; gap: 1rem; margin-top: 1rem; }
+  .record-count { color: #71879a; font-size: .75rem; }
   .charts-grid { display: grid; gap: 1rem; margin-top: 1rem; }
   .chart-card { min-width: 0; border: 1px solid #e8eff5; border-radius: 1.15rem; background: white; padding: 1.25rem; box-shadow: 0 10px 30px rgb(20 43 69 / .04); }
   .chart-card h2 { font-family: var(--font-display); font-size: 1.05rem; }
@@ -78,6 +89,8 @@
     .admin-metrics-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .charts-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .chart-card:last-child { grid-column: span 2; }
+    .patient-feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .patient-record-panels { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 480px) {
     .dashboard-header { flex-direction: column; }
