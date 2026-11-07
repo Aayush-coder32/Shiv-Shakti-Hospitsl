@@ -95,11 +95,11 @@ function SimplePage({ title, eyebrow, children }) {
   return <Layout><section className="bg-soft"><div className="container py-20"><span className="eyebrow">{eyebrow}</span><h1 className="section-title mt-4">{title}</h1>{children}</div></section></Layout>;
 }
 
-function AuthPage({ register = false }) {
+function AuthPage({ register = false, admin = false }) {
   const navigate = useNavigate();
   const [error, setError] = useState('');
-  const demoEmail = 'patient@demo.com';
-  const demoPassword = 'Demo@123';
+  const demoEmail = admin ? 'admin@demo.com' : 'patient@demo.com';
+  const demoPassword = admin ? 'Admin@123' : 'Demo@123';
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -109,17 +109,17 @@ function AuthPage({ register = false }) {
     const password = formData.get('password');
 
     if (!register && (email !== demoEmail || password !== demoPassword)) {
-      setError('Demo login ke liye patient@demo.com aur Demo@123 use karein.');
+      setError(admin ? 'Admin login ke liye admin@demo.com aur Admin@123 use karein.' : 'Demo login ke liye patient@demo.com aur Demo@123 use karein.');
       return;
     }
 
     if (register) {
-      navigate('/login');
+      navigate(admin ? '/admin/login' : '/login');
       return;
     }
 
-    localStorage.setItem('demoPatientSession', 'active');
-    navigate('/patient/dashboard');
+    localStorage.setItem(admin ? 'demoAdminSession' : 'demoPatientSession', 'active');
+    navigate(admin ? '/admin/dashboard' : '/patient/dashboard');
   }
 
   return <Layout>
@@ -127,19 +127,19 @@ function AuthPage({ register = false }) {
       <div className="container grid items-center gap-12 py-16 lg:grid-cols-[.9fr_1.1fr] lg:py-24">
         <div className="hidden lg:block">
           <span className="eyebrow"><ShieldCheck size={16} /> Secure patient portal</span>
-          <h1 className="mt-5 max-w-lg font-display text-5xl font-bold leading-tight">Your care journey, all in one place.</h1>
-          <p className="mt-5 max-w-md text-lg leading-8 text-slate-600">Sign in to manage appointments and access your personal healthcare services.</p>
+          <h1 className="mt-5 max-w-lg font-display text-5xl font-bold leading-tight">{admin ? 'Manage hospital care with confidence.' : 'Your care journey, all in one place.'}</h1>
+          <p className="mt-5 max-w-md text-lg leading-8 text-slate-600">{admin ? 'Sign in to manage patients, appointments, staff, and hospital operations.' : 'Sign in to manage appointments and access your personal healthcare services.'}</p>
         </div>
         <div className="auth-card">
           <div className="mb-8 text-center">
             <img src={hospitalLogoUrl} alt="Shiv Shakti Hospital logo" className="mx-auto mb-4 h-16 w-auto object-contain" />
             <h2 className="font-display text-2xl font-bold">{register ? 'Create your patient account' : 'Welcome back'}</h2>
-            <p className="mt-2 text-sm text-slate-500">{register ? 'Register to access the patient portal.' : 'Sign in to continue to your patient portal.'}</p>
+            <p className="mt-2 text-sm text-slate-500">{register ? 'Register to access the patient portal.' : `Sign in to continue to your ${admin ? 'admin' : 'patient'} portal.`}</p>
           </div>
-          <div className="mb-7 grid grid-cols-2 rounded-xl bg-soft p-1 text-sm font-bold">
+          {!admin && <div className="mb-7 grid grid-cols-2 rounded-xl bg-soft p-1 text-sm font-bold">
             <Link to="/login" className={`rounded-lg py-3 text-center ${!register ? 'bg-white text-blue shadow-sm' : 'text-slate-500'}`}>Sign in</Link>
             <Link to="/register" className={`rounded-lg py-3 text-center ${register ? 'bg-white text-blue shadow-sm' : 'text-slate-500'}`}>Sign up</Link>
-          </div>
+          </div>}
           <form className="grid gap-4" onSubmit={handleSubmit}>
             {register && <label className="field"><span>Full name</span><div className="input-wrap"><UserRound size={18} /><input name="name" required type="text" placeholder="Enter your full name" /></div></label>}
             <label className="field"><span>Email address</span><div className="input-wrap"><Mail size={18} /><input name="email" required type="email" placeholder="you@example.com" /></div></label>
@@ -179,7 +179,11 @@ function PatientDashboard() {
 }
 
 function AdminPatientManagement() {
+  const adminSession = localStorage.getItem('demoAdminSession');
   const navigate = useNavigate();
+  useEffect(() => {
+    if (!adminSession) navigate('/admin/login');
+  }, [adminSession, navigate]);
   const features = [
     ['Add New Patient', 'Create a new patient registration record.'],
     ['Edit Patient Details', 'Update verified patient information.'],
@@ -197,9 +201,15 @@ function AdminPatientManagement() {
 }
 
 function AdminDashboard() {
+  const navigate = useNavigate();
+  const adminSession = localStorage.getItem('demoAdminSession');
   const [metrics, setMetrics] = useState(null);
   const [charts, setCharts] = useState(null);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (!adminSession) navigate('/admin/login');
+  }, [adminSession, navigate]);
 
   useEffect(() => {
     axios.get(`${apiUrl}/dashboard/overview`)
