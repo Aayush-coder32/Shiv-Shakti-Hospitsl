@@ -32,7 +32,24 @@
 }
 
 .hero-grid {
-  background:
-    linear-gradient(90deg, rgb(244 248 252 / .97) 0%, rgb(255 255 255 / .9) 54%, rgb(255 255 255 / .55) 100%),
-    url('https://tse1.mm.bing.net/th/id/OIP.gAAalHdkpu9iSRe4EVftnAHaE8?r=0&pid=Api&h=220&P=0') center right / contain no-repeat;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, #f4f8fc 0%, rgb(255 255 255 / .96) 58%, rgb(255 255 255 / .82) 100%);
+}
+
+.hero-background-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 0;
+  width: 52%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center right;
+  opacity: .8;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
 }

@@ -75,7 +75,8 @@ function Layout({ children }) {
 function Home() {
   return <Layout>
     <section className="hero-grid">
-      <div className="container grid items-center gap-12 py-20 lg:grid-cols-[1.1fr_0.9fr] lg:py-28">
+      <img src="https://tse1.mm.bing.net/th/id/OIP.gAAalHdkpu9iSRe4EVftnAHaE8?r=0&pid=Api&h=220&P=0" alt="" aria-hidden="true" className="hero-background-image" />
+      <div className="container hero-content grid items-center gap-12 py-20 lg:grid-cols-[1.1fr_0.9fr] lg:py-28">
         <div><span className="eyebrow"><ShieldCheck size={16} /> Care designed around you</span><h1 className="mt-6 max-w-3xl font-display text-5xl font-bold leading-[1.05] tracking-tight md:text-7xl">Welcome to <span className="text-blue">Shiv Shakti Hospital, Lucknow</span></h1><p className="mt-6 max-w-xl text-lg leading-8 text-slate-600">Quality healthcare, compassionate support, and modern facilities for you and your family.</p><div className="mt-8 flex flex-wrap gap-4"><Link to="/appointments" className="button-primary">Book an appointment <ArrowRight size={18} /></Link><a href="#contact" className="button-secondary"><PhoneCall size={18} /> Contact hospital</a></div></div>
         <div className="relative"><div className="absolute -inset-4 rounded-[2rem] bg-teal/10 blur-2xl" /><div className="relative rounded-[2rem] bg-gradient-to-br from-blue to-[#0d4c81] p-8 text-white shadow-2xl shadow-blue/20"><div className="mb-16 flex items-start justify-between"><span className="rounded-full bg-white/15 px-3 py-1 text-xs font-bold uppercase tracking-wider">Patient-first care</span><HeartPulse size={28} className="text-teal" /></div><p className="font-display text-3xl font-bold leading-tight">“Every visit should leave you feeling heard, informed, and cared for.”</p><div className="mt-12 h-1 w-16 rounded-full bg-teal" /></div></div>
       </div>
